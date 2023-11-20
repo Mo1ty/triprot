@@ -26,14 +26,12 @@ usage::
 The corresponding server must be started before e.g. as:
     python3 server_sync.py
 """
-import asyncio
-import logging
 
-import helper
+import logging
 
 import pymodbus.client as ModbusClient
 from pymodbus.exceptions import ModbusException
-
+from pymodbus.server.simulator.main import get_commandline
 
 _logger = logging.getLogger(__file__)
 _logger.setLevel("DEBUG")
@@ -41,7 +39,7 @@ _logger.setLevel("DEBUG")
 
 def setup_async_client(description=None, cmdline=None):
     """Run client setup."""
-    args = helper.get_commandline(
+    args = get_commandline(
         server=False, description=description, cmdline=cmdline
     )
     _logger.info("### Create client object")

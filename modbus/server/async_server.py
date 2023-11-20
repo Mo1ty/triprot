@@ -34,8 +34,6 @@ The corresponding client can be started as:
 """
 import logging
 
-import helper
-
 from pymodbus import __version__ as pymodbus_version
 from pymodbus.datastore import (
     ModbusSequentialDataBlock,
@@ -45,7 +43,7 @@ from pymodbus.datastore import (
 )
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.server import StartAsyncTcpServer
-
+from pymodbus.server.simulator.main import get_commandline
 
 _logger = logging.getLogger(__file__)
 _logger.setLevel(logging.INFO)
@@ -53,7 +51,7 @@ _logger.setLevel(logging.INFO)
 
 def setup_server(description=None, context=None, cmdline=None):
     """Run server setup."""
-    args = helper.get_commandline(server=True, description=description, cmdline=cmdline)
+    args = get_commandline(server=True, description=description, cmdline=cmdline)
     if context:
         args.context = context
     if not args.context:

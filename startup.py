@@ -1,4 +1,5 @@
 import modbus.client.async_client as async_client
+import modbus.server.async_server as async_server
 import logging
 
 _logger = logging.getLogger(__file__)
@@ -11,7 +12,7 @@ def initialize_application():
     result = input("Put your number (1 to 3) here: ")
 
     if result == "1":
-        pass
+        modbus_async_server = async_server.async_helper()
     elif result == "2":
         modbus_async_client = async_client.setup_async_client()
         device_info = async_client.run_async_client(modbus_async_client)
