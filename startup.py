@@ -20,7 +20,6 @@ def initialize_application():
         if device_info is not None:
             print("### Information received successfully! ###")
             print(device_info)
-            print(device_info)
         modbus_async_client.close()
         print("### Modbus client closed. ###")
     elif result == "3":
