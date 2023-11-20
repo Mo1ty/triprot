@@ -43,7 +43,8 @@ from pymodbus.datastore import (
 )
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.server import StartAsyncTcpServer
-from pymodbus.server.simulator.main import get_commandline
+
+from modbus import helper
 
 _logger = logging.getLogger(__file__)
 _logger.setLevel(logging.INFO)
@@ -51,7 +52,7 @@ _logger.setLevel(logging.INFO)
 
 def setup_server(description=None, context=None, cmdline=None):
     """Run server setup."""
-    args = get_commandline(server=True, description=description, cmdline=cmdline)
+    args = helper.get_commandline(server=True, description=description, cmdline=cmdline)
     if context:
         args.context = context
     if not args.context:
