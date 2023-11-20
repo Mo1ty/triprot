@@ -12,16 +12,17 @@ def initialize_application():
     result = input("Put your number (1 to 3) here: ")
 
     if result == "1":
-        modbus_async_server = async_server.async_helper()
+        modbus_async_server = await async_server.async_helper()
     elif result == "2":
         modbus_async_client = async_client.setup_async_client()
-        device_info = async_client.run_async_client(modbus_async_client)
+
+        device_info = await async_client.run_async_client(modbus_async_client)
         if device_info is not None:
-            _logger.info("### Information received successfully! ###")
+            print("### Information received successfully! ###")
             print(device_info)
-            _logger.info(device_info)
+            print(device_info)
         modbus_async_client.close()
-        _logger.info("### Modbus client closed. ###")
+        print("### Modbus client closed. ###")
     elif result == "3":
         pass
     else:

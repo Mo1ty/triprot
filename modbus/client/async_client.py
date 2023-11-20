@@ -31,7 +31,6 @@ import logging
 
 import pymodbus.client as ModbusClient
 from pymodbus.exceptions import ModbusException
-from pymodbus.server.simulator.main import get_commandline
 from modbus import helper
 
 _logger = logging.getLogger(__file__)
@@ -41,7 +40,7 @@ _logger.setLevel("DEBUG")
 def setup_async_client(description=None, cmdline=None):
     """Run client setup."""
     args = helper.get_commandline(server=False, description=description, cmdline=cmdline)
-    _logger.info("### Create client object")
+    print("### Create client object")
     client = ModbusClient.AsyncModbusTcpClient(
         args.host,
         port=args.port,  # on which port
@@ -60,20 +59,19 @@ def setup_async_client(description=None, cmdline=None):
 
 async def run_async_client(client):
     """Run sync client."""
-    _logger.info("### Client starting")
+    print("### Client starting")
     await client.connect()
     assert client.connected
     device_info = None
     try:
         device_info = client.read_device_information()
     except ModbusException as exc:
-        _logger.info("### ERROR ###")
-        _logger.info("### RECEIVING DEVICE INFORMATION FAILED! ###")
-        _logger.info(exc.string)
+        print("### ERROR ###")
+        print("### RECEIVING DEVICE INFORMATION FAILED! ###")
+        print(exc.string)
     finally:
-        _logger.info("### End of Program")
+        print("### End of Program")
         return device_info
-
 
 
 async def run_a_few_calls(client):
