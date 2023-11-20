@@ -1,12 +1,13 @@
 import modbus.client.async_client as async_client
 import modbus.server.async_server as async_server
 import logging
+import asyncio
 
 _logger = logging.getLogger(__file__)
 _logger.setLevel("DEBUG")
 
 
-def initialize_application():
+async def initialize_application():
     print("What machine do you want to start?")
 
     result = input("Put your number (1 to 3) here: ")
@@ -28,7 +29,7 @@ def initialize_application():
         print("Error, no option with such value!")
 
 
-def startup_menu():
+async def startup_menu():
     print("Welcome to the TriProt application!")
     print("Choose one of possible options: ")
     for i in range(0, len(options)):
@@ -37,7 +38,7 @@ def startup_menu():
     result = input("Put your number here: ")
 
     if result == "1":
-        initialize_application()
+        await initialize_application()
     elif result == "2":
         pass
     elif result == "3":
@@ -49,4 +50,4 @@ def startup_menu():
 options = ["Start app.", "Exit.", "How it works?"]
 
 if __name__ == "__main__":
-    startup_menu()
+    asyncio.run(startup_menu())
