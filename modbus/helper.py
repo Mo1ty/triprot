@@ -6,7 +6,6 @@ get_command_line
 """
 import argparse
 import logging
-import os
 
 from pymodbus import pymodbus_apply_logging_config
 from pymodbus.transaction import (
@@ -33,7 +32,7 @@ def get_framer(framer):
     return framers[framer]
 
 
-def get_commandline(server=False, description=None, extras=None, cmdline=None):
+def get_commandline(host=None, server=False, description=None, extras=None, cmdline=None):
     """Read and validate command line arguments"""
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument(
@@ -79,7 +78,7 @@ def get_commandline(server=False, description=None, extras=None, cmdline=None):
         "--host",
         help="set host, default is 127.0.0.1",
         dest="host",
-        default=None,
+        default=host,
         type=str,
     )
     if server:
@@ -131,19 +130,3 @@ def get_commandline(server=False, description=None, extras=None, cmdline=None):
         args.host = "" if server else "127.0.0.1"
     return args
 
-
-def get_certificate(suffix: str):
-    """Get example certificate."""
-    delimiter = "\\" if os.name == "nt" else "/"
-    cwd = os.getcwd().split(delimiter)[-1]
-    if cwd == "examples":
-        path = "../../../Desktop"  # pragma no cover
-    elif cwd == "sub_examples":
-        path = "../../examples"  # pragma no cover
-    elif cwd == "test":
-        path = "../examples"
-    elif cwd == "pymodbus":
-        path = "examples"  # pragma no cover
-    else:
-        raise RuntimeError(f"**Error** Cannot find certificate path={cwd}")
-    return f"{path}/certificates/pymodbus.{suffix}"

@@ -37,9 +37,9 @@ _logger = logging.getLogger(__file__)
 _logger.setLevel("DEBUG")
 
 
-def setup_async_client(description=None, cmdline=None):
+def setup_async_client(host=None, description=None, cmdline=None):
     """Run client setup."""
-    args = helper.get_commandline(server=False, description=description, cmdline=cmdline)
+    args = helper.get_commandline(host=host, server=False, description=description, cmdline=cmdline)
     print("### Create client object")
     client = ModbusClient.AsyncModbusTcpClient(
         args.host,
