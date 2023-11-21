@@ -74,13 +74,8 @@ def get_commandline(host=None, server=False, description=None, extras=None, cmdl
         default=9600,
         type=int,
     )
-    parser.add_argument(
-        "--host",
-        help="set host, default is 127.0.0.1",
-        dest="host",
-        default=host,
-        type=str,
-    )
+    # parser.add_argument("--host", help="set host, default is 127.0.0.1", dest="host", default=host, type=str)
+    parser = argparse.ArgumentParser(host=host)
     if server:
         parser.add_argument(
             "--store",
