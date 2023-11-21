@@ -43,7 +43,6 @@ from pymodbus.datastore import (
 )
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.server import StartAsyncTcpServer
-
 from modbus import helper
 
 _logger = logging.getLogger(__file__)
