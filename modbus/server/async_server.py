@@ -43,83 +43,24 @@ from pymodbus.datastore import (
 )
 from pymodbus.device import ModbusDeviceIdentification
 from pymodbus.server import StartAsyncTcpServer
-from modbus import helper
+
+from modbus.args.server_args import ServerArgs as Args
 
 _logger = logging.getLogger(__file__)
 _logger.setLevel(logging.INFO)
 
 
-def setup_server(description=None, context=None, cmdline=None):
+def setup_server(host=None, description=None):
     """Run server setup."""
-    args = helper.get_commandline(server=True, description=description, cmdline=cmdline)
-    if context:
-        args.context = context
-    if not args.context:
-        _logger.info("### Create datastore")
-        # The datastores only respond to the addresses that are initialized
-        # If you initialize a DataBlock to addresses of 0x00 to 0xFF, a request to
-        # 0x100 will respond with an invalid address exception.
-        # This is because many devices exhibit this kind of behavior (but not all)
-        if args.store == "sequential":
-            # Continuing, use a sequential block without gaps.
-            datablock = ModbusSequentialDataBlock(0x00, [17] * 100)
-        elif args.store == "sparse":
-            # Continuing, or use a sparse DataBlock which can have gaps
-            datablock = ModbusSparseDataBlock({0x00: 0, 0x05: 1})
-        elif args.store == "factory":
-            # Alternately, use the factory methods to initialize the DataBlocks
-            # or simply do not pass them to have them initialized to 0x00 on the
-            # full address range::
-            datablock = ModbusSequentialDataBlock.create()
+    args = Args(host, description)
+    print("### Create datastore")
+    datablock = ModbusSequentialDataBlock(0x00, [17] * 100)
+    context = ModbusSlaveContext(di=datablock, co=datablock, hr=datablock, ir=datablock)
+    single = True
 
-        if args.slaves:
-            # The server then makes use of a server context that allows the server
-            # to respond with different slave contexts for different slave ids.
-            # By default it will return the same context for every slave id supplied
-            # (broadcast mode).
-            # However, this can be overloaded by setting the single flag to False and
-            # then supplying a dictionary of slave id to context mapping::
-            #
-            # The slave context can also be initialized in zero_mode which means
-            # that a request to address(0-7) will map to the address (0-7).
-            # The default is False which is based on section 4.4 of the
-            # specification, so address(0-7) will map to (1-8)::
-            context = {
-                0x01: ModbusSlaveContext(
-                    di=datablock,
-                    co=datablock,
-                    hr=datablock,
-                    ir=datablock,
-                ),
-                0x02: ModbusSlaveContext(
-                    di=datablock,
-                    co=datablock,
-                    hr=datablock,
-                    ir=datablock,
-                ),
-                0x03: ModbusSlaveContext(
-                    di=datablock,
-                    co=datablock,
-                    hr=datablock,
-                    ir=datablock,
-                    zero_mode=True,
-                ),
-            }
-            single = False
-        else:
-            context = ModbusSlaveContext(
-                di=datablock, co=datablock, hr=datablock, ir=datablock
-            )
-            single = True
+    print("# Build data storage")
+    args.context = ModbusServerContext(slaves=context, single=single)
 
-        # Build data storage
-        args.context = ModbusServerContext(slaves=context, single=single)
-
-    # ----------------------------------------------------------------------- #
-    # initialize the server information
-    # ----------------------------------------------------------------------- #
-    # If you don't set this or any fields, they are defaulted to empty strings.
-    # ----------------------------------------------------------------------- #
     args.identity = ModbusDeviceIdentification(
         info_name={
             "VendorName": "Pymodbus",
@@ -131,6 +72,25 @@ def setup_server(description=None, context=None, cmdline=None):
         }
     )
     return args
+
+
+def setup_server_args(host='127.0.0.1', description=''):
+    server_args = {
+        "comm": 'tcp',
+        "framer": {
+            "method": 'socket',
+            "name": ''
+        },
+        "log": 'INFO',
+        "port": 5020,
+        "baudrate": 9600,
+        "host": host,
+        "store": 'sequential',
+        "slaves": 0,
+        "context": None,
+        "description": description
+    }
+    return server_args
 
 
 async def run_async_server(args):

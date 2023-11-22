@@ -31,15 +31,15 @@ import logging
 
 import pymodbus.client as ModbusClient
 from pymodbus.exceptions import ModbusException
-from modbus import helper
+from modbus.args.client_args import ClientArgs as Args
 
 _logger = logging.getLogger(__file__)
 _logger.setLevel("DEBUG")
 
 
-def setup_async_client(host=None, description=None, cmdline=None):
+def setup_async_client(host=None):
     """Run client setup."""
-    args = helper.get_commandline(host=host, server=False, description=description, cmdline=cmdline)
+    args = Args(host)
     print("### Create client object")
     client = ModbusClient.AsyncModbusTcpClient(
         args.host,
