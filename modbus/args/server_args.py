@@ -1,10 +1,11 @@
-from pymodbus import framer
+from pymodbus.transaction import ModbusSocketFramer
+
 
 class ServerArgs:
     def __init__(self, host="127.0.0.1", description=""):
         self.baudrate = 9600
         self.comm = 'tcp'
-        self.framer = framer
+        self.framer = ModbusSocketFramer
         self.host = host
         self.log = 'INFO'
         self.port = 5020
@@ -13,3 +14,4 @@ class ServerArgs:
         self.slaves = 0
         self.context = None
         self.description = description
+        self.identity = None

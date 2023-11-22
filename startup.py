@@ -1,10 +1,6 @@
 import modbus.client.async_client as async_client
 import modbus.server.async_server as async_server
-import logging
 import asyncio
-
-_logger = logging.getLogger(__file__)
-_logger.setLevel("DEBUG")
 
 
 async def initialize_application():
@@ -14,6 +10,7 @@ async def initialize_application():
 
     if result == "1":
         modbus_async_server = await async_server.async_helper()
+        modbus_async_server.close()
     elif result == "2":
         host = input("Put your IP here: ")
         modbus_async_client = async_client.setup_async_client(host)
