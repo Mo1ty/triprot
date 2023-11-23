@@ -10,14 +10,13 @@ async def initialize_application():
 
     if result == "1":
         modbus_async_server = await async_server.async_helper()
-        modbus_async_server.close()
     elif result == "2":
         host = input("Put your IP here: ")
         modbus_async_client = async_client.setup_async_client(host)
         device_info = await async_client.run_async_client(modbus_async_client)
         if device_info is not None:
             print("### Information received successfully! ###")
-            print(device_info)
+            print(str(device_info))
         modbus_async_client.close()
         print("### Modbus client closed. ###")
     elif result == "3":

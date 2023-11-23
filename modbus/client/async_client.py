@@ -30,16 +30,17 @@ async def run_async_client(client):
     print("### Client starting")
     await client.connect()
     assert client.connected
-    device_info = None
+    result = None
     try:
-        device_info = client.read_device_information()
+        result = client.read_holding_registers(0x00, 20, slave=0)
+        print(result.registers)
     except ModbusException as exc:
         print("### ERROR ###")
         print("### RECEIVING DEVICE INFORMATION FAILED! ###")
         print(exc.string)
     finally:
         print("### End of Program")
-        return device_info
+        return result
 
 
 async def run_a_few_calls(client):
