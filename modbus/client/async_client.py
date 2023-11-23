@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import time
 
 import pymodbus.client as ModbusClient
 from pymodbus.exceptions import ModbusException
@@ -30,16 +31,17 @@ async def run_async_client(client):
     print("### Client starting")
     await client.connect()
     assert client.connected
-    result = None
     try:
-        result = client.read_holding_registers(0x00, 20, slave=0)
+        request = await client.read_input_registers(address=0x00, count=96)
+        while not request.registers:
+            time.sleep(1)
+        return request
     except ModbusException as exc:
         print("### ERROR ###")
         print("### RECEIVING DEVICE INFORMATION FAILED! ###")
         print(exc.string)
     finally:
         print("### End of Program")
-        return result
 
 
 async def run_a_few_calls(client):
