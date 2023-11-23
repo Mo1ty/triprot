@@ -33,7 +33,6 @@ async def run_async_client(client):
     result = None
     try:
         result = client.read_holding_registers(0x00, 20, slave=0)
-        print(result.registers)
     except ModbusException as exc:
         print("### ERROR ###")
         print("### RECEIVING DEVICE INFORMATION FAILED! ###")
