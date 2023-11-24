@@ -38,6 +38,7 @@ def main():
     print("transmit")
     print("transmit")
     print("transmit")
+
     if command.transmit(cause=c104.Cot.ACTIVATION):
         print("-> SUCCESS")
     else:
@@ -47,6 +48,18 @@ def main():
     print("exit")
     print("exit")
     print("exit")
+
+
+def con_on_send_raw(connection: c104.Connection, data: bytes) -> None:
+    print("<--| {1} [{0}] | CON {2}:{3}".format(data.hex(), c104.explain_bytes(apdu=data),
+                                                connection.ip, connection.port))
+
+
+def before_transmit(point: c104.Point) -> None:
+    """ update point value before transmission
+    """
+    point.value = random.random() * 100
+    print("{0} BEFORE TRANSMIT on IOA: {1}".format(point.type, point.io_address))
 
 
 if __name__ == "__main__":
