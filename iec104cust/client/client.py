@@ -12,11 +12,6 @@ def main(host104, registers):
     # monitoring point preparation
     point = station.add_point(io_address=11, type=c104.Type.M_ME_NC_1)
 
-
-    # command point preparation
-    command = station.add_point(io_address=12, type=c104.Type.C_RC_TA_1)
-    command.value = c104.Step.HIGHER
-
     # start
     client.start()
 
@@ -24,6 +19,13 @@ def main(host104, registers):
         print("Waiting for connection to {0}:{1}".format(connection.ip, connection.port))
         time.sleep(1)
 
+    for i in range(0, len(registers)):
+        infopoint = station.add_point(io_address=i+32+1, type=c104.Type.C_SE_NA_1)
+        infopoint.value = registers[i]
+        if infopoint.transmit(cause=c104.Cot.ACTIVATION):
+            print(f"Point {infopoint.io_address} -> SUCCESS")
+        else:
+            break
 
     #time.sleep(3)
 
@@ -41,10 +43,7 @@ def main(host104, registers):
     print("transmit")
     print("transmit")
 
-    if command.transmit(cause=c104.Cot.ACTIVATION):
-        print("-> SUCCESS")
-    else:
-        print("-> FAILURE")
+
     time.sleep(3)
 
     print("exit")

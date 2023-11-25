@@ -22,12 +22,6 @@ def on_step_command(point: c104.Point, previous_state: dict, message: c104.Incom
     return c104.ResponseState.FAILURE
 
 
-def before_transmit(point: c104.Point) -> None:
-    """ update point value before transmission
-    """
-    point.value = random.random() * 100
-    print("{0} BEFORE TRANSMIT on IOA: {1}".format(point.type, point.io_address))
-
 
 def main():
     # server and station preparation
@@ -36,11 +30,10 @@ def main():
 
     # monitoring point preparation
     point = station.add_point(io_address=11, type=c104.Type.M_ME_NC_1, report_ms=15000)
-    point.on_before_auto_transmit(callable=before_transmit)
-    point.on_before_read(callable=before_transmit)
 
-    # command point preparation
-    command = station.add_point(io_address=12, type=c104.Type.C_RC_TA_1)
+    # command points preparation
+    for i in range(0, 96):
+        infopoint = station.add_point(io_address=i+32+1, type=c104.Type.C_SE_NA_1)
 
     # start
     server.start()
@@ -57,7 +50,7 @@ def main():
         print("Keep alive until disconnected")
         time.sleep(1)
 
-    print(f"### POINT 12 VALUE IS: {command.value}")
+    print(f"### POINT 64 VALUE IS: {station.get_point(64).value}")
     print("CONNECTION OVER!")
     print("CONNECTION OVER!")
     print("CONNECTION OVER!")
