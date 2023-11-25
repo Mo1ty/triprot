@@ -6,7 +6,7 @@ import time
 def main():
     # client, connection and station preparation
     client = c104.Client(tick_rate_ms=1000, command_timeout_ms=1000)
-    connection = client.add_connection(ip="127.0.0.1", port=2404, init=c104.Init.INTERROGATION)
+    connection = client.add_connection(ip="192.168.0.114", port=2404, init=c104.Init.INTERROGATION)
     station = connection.add_station(common_address=47)
 
     # monitoring point preparation
@@ -61,8 +61,7 @@ def before_transmit(point: c104.Point) -> None:
     point.value = random.random() * 100
     print("{0} BEFORE TRANSMIT on IOA: {1}".format(point.type, point.io_address))
 
-
-if __name__ == "__main__":
+def start_client(host = '127.0.0.1'):
     c104.set_debug_mode(c104.Debug.Client | c104.Debug.Connection)
     main()
     time.sleep(1)
