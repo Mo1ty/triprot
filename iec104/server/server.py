@@ -39,8 +39,8 @@ def main():
     # command point preparation
     command = station.add_point(io_address=12, type=c104.Type.C_RC_TA_1)
     command.on_receive(callable=on_step_command)
-
     # start
+    server.on_receive_raw(callable=sv_on_receive_raw)
     server.start()
 
     while not server.has_active_connections:
@@ -49,6 +49,10 @@ def main():
 
     time.sleep(1)
 
+    try:
+        server.get_station(12)
+    except Exception:
+        pass
     c = 0
     while server.has_open_connections and c < 30:
         c += 1
@@ -56,7 +60,12 @@ def main():
         time.sleep(1)
 
 
-if __name__ == "__main__":
-    c104.set_debug_mode(c104.Debug.Server)
+def sv_on_receive_raw(server: c104.Server, data: bytes) -> None:
+    print("-->| {1} [{0}] | SERVER {2}:{3}".format(data.hex(), c104.explain_bytes(apdu=data), server.ip,
+                                                   server.port))
+
+def start_server():
+    c104.set_debug_mode(c104.Debug.Client | c104.Debug.Connection)
+    print("### DEBUG MODE SET")
     main()
     time.sleep(1)

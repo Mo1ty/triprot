@@ -5,6 +5,7 @@ import time
 import iec104.server.server as Server104
 import iec104.client.client as Client104
 
+
 async def initialize_application():
 
     print("What machine do you want to start?")
@@ -31,7 +32,7 @@ async def initialize_application():
         client = Client104.start_client(host104)
 
     elif result == "3":
-        server = Server104
+        server = Server104.start_server()
     else:
         print("Error, no option with such value!")
 

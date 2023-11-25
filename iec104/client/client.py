@@ -7,6 +7,7 @@ def main():
     # client, connection and station preparation
     client = c104.Client(tick_rate_ms=1000, command_timeout_ms=1000)
     connection = client.add_connection(ip="192.168.0.114", port=2404, init=c104.Init.INTERROGATION)
+    connection.on_send_raw(callable=sv_on_send_raw)
     station = connection.add_station(common_address=47)
 
     # monitoring point preparation
@@ -15,6 +16,7 @@ def main():
     # command point preparation
     command = station.add_point(io_address=12, type=c104.Type.C_RC_TA_1)
     command.value = c104.Step.HIGHER
+
 
     # start
     client.start()
@@ -50,7 +52,7 @@ def main():
     print("exit")
 
 
-def con_on_send_raw(connection: c104.Connection, data: bytes) -> None:
+def sv_on_send_raw(connection: c104.Connection, data: bytes) -> None:
     print("<--| {1} [{0}] | CON {2}:{3}".format(data.hex(), c104.explain_bytes(apdu=data),
                                                 connection.ip, connection.port))
 
@@ -61,7 +63,8 @@ def before_transmit(point: c104.Point) -> None:
     point.value = random.random() * 100
     print("{0} BEFORE TRANSMIT on IOA: {1}".format(point.type, point.io_address))
 
-def start_client(host = '127.0.0.1'):
+
+def start_client(host='127.0.0.1'):
     c104.set_debug_mode(c104.Debug.Client | c104.Debug.Connection)
     main()
     time.sleep(1)
