@@ -33,7 +33,7 @@ def main():
 
     # command points preparation
     for i in range(0, 96):
-        infopoint = station.add_point(io_address=i+32+1, type=c104.Type.C_SE_NA_1)
+        infopoint = station.add_point(io_address=i+32+1, type=c104.Type.C_SE_NB_1)
 
     # start
     server.start()

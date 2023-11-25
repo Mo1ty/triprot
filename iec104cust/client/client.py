@@ -20,7 +20,7 @@ def main(host104, registers):
         time.sleep(1)
 
     for i in range(0, len(registers)):
-        infopoint = station.add_point(io_address=i+32+1, type=c104.Type.C_SE_NA_1)
+        infopoint = station.add_point(io_address=i+32+1, type=c104.Type.C_SE_NB_1)
         infopoint.value = registers[i]
         if infopoint.transmit(cause=c104.Cot.ACTIVATION):
             print(f"Point {infopoint.io_address} -> SUCCESS")
