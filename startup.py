@@ -2,8 +2,8 @@ import modbus.client.async_client as async_client
 import modbus.server.async_server as async_server
 import asyncio
 import time
-import iec104.server.server as Server104
-import iec104.client.client as Client104
+import iec104cust.server.server as Server104
+import iec104cust.client.client as Client104
 
 
 async def initialize_application():
@@ -26,10 +26,10 @@ async def initialize_application():
         modbus_async_client.close()
         print("### Modbus client closed. ###")
         print("### Sending application to sleep to establish next checkpoint! ###")
-        time.sleep(7)
+        time.sleep(2)
 
         host104 = input("Put your c104 IP here: ")
-        client = Client104.start_client(host104)
+        client = Client104.start_client(host104, register_info)
 
     elif result == "3":
         server = Server104.start_server()

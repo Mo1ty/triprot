@@ -5,7 +5,6 @@ import pymodbus.client as ModbusClient
 from pymodbus.exceptions import ModbusException
 from modbus.args.client_args import ClientArgs as Args
 
-
 def setup_async_client(host=None):
     """Run client setup."""
     args = Args(host)

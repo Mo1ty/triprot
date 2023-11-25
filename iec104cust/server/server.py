@@ -6,7 +6,10 @@ import time
 def on_step_command(point: c104.Point, previous_state: dict, message: c104.IncomingMessage) -> c104.ResponseState:
     """ handle incoming regulating step command
     """
-    print("{0} STEP COMMAND on IOA: {1}, new: {2}, prev: {3}, cot: {4}, quality: {5}".format(point.type, point.io_address, point.value, previous_state, message.cot, point.quality))
+    print(
+        "{0} STEP COMMAND on IOA: {1}, new: {2}, prev: {3}, cot: {4}, quality: {5}".format(point.type, point.io_address,
+                                                                                           point.value, previous_state,
+                                                                                           message.cot, point.quality))
 
     if point.value == c104.Step.LOWER:
         # do something
@@ -38,9 +41,8 @@ def main():
 
     # command point preparation
     command = station.add_point(io_address=12, type=c104.Type.C_RC_TA_1)
-    command.on_receive(callable=on_step_command)
+
     # start
-    server.on_receive_raw(callable=sv_on_receive_raw)
     server.start()
 
     while not server.has_active_connections:
@@ -49,20 +51,17 @@ def main():
 
     time.sleep(1)
 
-    try:
-        server.get_station(12)
-    except Exception:
-        pass
     c = 0
     while server.has_open_connections and c < 30:
         c += 1
         print("Keep alive until disconnected")
         time.sleep(1)
 
+    print(f"### POINT 12 VALUE IS: {command.value}")
+    print("CONNECTION OVER!")
+    print("CONNECTION OVER!")
+    print("CONNECTION OVER!")
 
-def sv_on_receive_raw(server: c104.Server, data: bytes) -> None:
-    print("-->| {1} [{0}] | SERVER {2}:{3}".format(data.hex(), c104.explain_bytes(apdu=data), server.ip,
-                                                   server.port))
 
 def start_server():
     c104.set_debug_mode(c104.Debug.Client | c104.Debug.Connection)
