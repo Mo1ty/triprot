@@ -1,5 +1,4 @@
 import c104
-import random
 import time
 
 
@@ -20,7 +19,6 @@ def on_step_command(point: c104.Point, previous_state: dict, message: c104.Incom
         return c104.ResponseState.SUCCESS
 
     return c104.ResponseState.FAILURE
-
 
 
 def main():

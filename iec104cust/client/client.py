@@ -1,7 +1,6 @@
 import c104
-import random
 import time
-import numpy
+
 
 def main(host104, registers):
     # client, connection and station preparation
@@ -20,6 +19,9 @@ def main(host104, registers):
         time.sleep(1)
 
     for i in range(0, len(registers)):
+        # C_SE_NB_1 - Setpoint command, scaled value. This type allows to set value of IOA in RTU.
+        # Point number = Modbus register index + 32 (position offset in point numeration) + 1 (position to index).
+        # Control direction - Client transmits to server.
         infopoint = station.add_point(io_address=i+32+1, type=c104.Type.C_SE_NB_1)
         infopoint.value = registers[i]
         if infopoint.transmit(cause=c104.Cot.ACTIVATION):
@@ -49,8 +51,6 @@ def main(host104, registers):
     print("exit")
     print("exit")
     print("exit")
-
-
 
 
 def start_client(host104='127.0.0.1', registers=None):
