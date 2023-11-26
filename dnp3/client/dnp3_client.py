@@ -270,6 +270,8 @@ def start_master(dnp3_host="127.0.0.1"):
                    soe_handler=SOEHandler(),
                    master_application=MasterApplication())
     print('Initialization complete. In command loop.')
+
+
     # Ad-hoc tests can be performed at this point. See master_cmd.py for examples.
     app.shutdown()
     print('Exiting.')

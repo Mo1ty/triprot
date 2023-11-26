@@ -1,3 +1,5 @@
+import time
+
 from pydnp3 import opendnp3, openpal, asiopal, asiodnp3
 
 LOG_LEVELS = opendnp3.levels.NORMAL | opendnp3.levels.ALL_COMMS
@@ -261,6 +263,9 @@ def start_outstation():
     app = OutstationApplication()
     print('Initialization complete. In command loop.')
     # Ad-hoc tests can be inserted here if desired. See outstation_cmd.py for examples.
+    while app:
+        print("App started. Server up.")
+        time.sleep(2)
     app.shutdown()
     print('Exiting.')
     exit()
