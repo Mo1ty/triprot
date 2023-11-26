@@ -35,8 +35,8 @@ async def initialize_application():
         result = input("Type here: ")
         if result == "1":
             dnp3_host = input("Put your dnp3 IP here: ")
-            client = Dnp3Client.start_master(dnp3_host)
-        if result == "2":
+            client = Dnp3Client.start_master(dnp3_host, register_info)
+        elif result == "2":
             host104 = input("Put your c104 IP here: ")
             client = Client104.start_client(host104, register_info)
         else:
@@ -50,7 +50,7 @@ async def initialize_application():
         result = input("Type here: ")
         if result == "1":
             server = Dnp3Outstation.start_outstation()
-        if result == "2":
+        elif result == "2":
             server = Server104.start_server()
         else:
             print("No option with such value!")

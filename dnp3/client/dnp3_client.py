@@ -2,6 +2,7 @@ import time
 
 from pydnp3 import opendnp3, openpal, asiopal, asiodnp3
 from dnp3_python.dnp3station.visitors  import *
+from pydnp3.opendnp3 import CommandSet, AnalogOutputInt32
 
 FILTERS = opendnp3.levels.NORMAL | opendnp3.levels.ALL_COMMS
 LOCAL = "0.0.0.0"
@@ -261,8 +262,17 @@ def restart_callback(result=opendnp3.RestartOperationResult()):
     else:
         print("Restart fail | Failure: {}".format(opendnp3.TaskCompletionToString(result.summary)))
 
+def write_data_to_points(register_info, app):
+    # command_set = CommandSet
 
-def start_master(dnp3_host="127.0.0.1"):
+    for info in range(0, len(register_info)):
+        app.send_select_and_operate_command(AnalogOutputInt32, register_info[info])
+
+def start_master(dnp3_host="127.0.0.1", register_info=None):
+
+    if register_info is None:
+        return
+
     """Main method used by app to start application"""
     app = MyMaster(dnp3_host,
                    log_handler=MyLogger(),
@@ -271,6 +281,8 @@ def start_master(dnp3_host="127.0.0.1"):
                    master_application=MasterApplication())
     print('Initialization complete. In command loop.')
 
+    # Transmit info to VM 3
+    write_data_to_points(register_info, app)
 
     # Ad-hoc tests can be performed at this point. See master_cmd.py for examples.
     app.shutdown()
