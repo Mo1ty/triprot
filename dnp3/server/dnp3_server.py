@@ -42,7 +42,7 @@ class OutstationApplication(opendnp3.IOutstationApplication):
         self.stack_config = self.configure_stack()
 
         print('Configuring the outstation database.')
-        self.configure_database(self.stack_config.dbConfig)
+        self.configure_database(self.stack_config.dbConfig, 96)
 
         print('Creating a DNP3Manager.')
         threads_to_allocate = 1
@@ -181,7 +181,8 @@ class OutstationApplication(opendnp3.IOutstationApplication):
         :param index: (integer) DNP3 index of the payload's data definition.
         :param op_type: An OperateType, or None if command_type == 'Select'.
         """
-        print('Processing received point value for index {}: {}'.format(index, command))
+
+        print('Processing received point value for index {}: {}'.format(index, command.value))
 
     def apply_update(self, value, index):
         """
@@ -258,7 +259,8 @@ def start_outstation():
     # Ad-hoc tests can be inserted here if desired. See outstation_cmd.py for examples.
     while app:
         print("App started. Server up.")
-        time.sleep(2)
+        time.sleep(7)
+
     app.shutdown()
     print('Exiting.')
     exit()
