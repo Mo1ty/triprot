@@ -4,7 +4,8 @@ import asyncio
 import time
 import iec104cust.server.server as Server104
 import iec104cust.client.client as Client104
-
+import dnp3.client.dnp3_client as Dnp3Client
+import dnp3.server.dnp3_server as Dnp3Outstation
 
 async def initialize_application():
 
@@ -28,13 +29,34 @@ async def initialize_application():
         print("### Sending application to sleep to establish next checkpoint! ###")
         time.sleep(2)
 
-        host104 = input("Put your c104 IP here: ")
-        client = Client104.start_client(host104, register_info)
+        print("Select your protocol:")
+        print("1 - DNP3")
+        print("2 - IEC104")
+        result = input("Type here: ")
+        if result == 1:
+            dnp3_host = input("Put your dnp3 IP here: ")
+            client = Dnp3Client.start_master(dnp3_host)
+        if result == 2:
+            host104 = input("Put your c104 IP here: ")
+            client = Client104.start_client(host104, register_info)
+        else:
+            print("No option with such value!")
+
 
     elif result == "3":
-        server = Server104.start_server()
+        print("Select your protocol:")
+        print("1 - DNP3")
+        print("2 - IEC104")
+        result = input("Type here: ")
+        if result == 1:
+            server = Dnp3Outstation.start_outstation()
+        if result == 2:
+            server = Server104.start_server()
+        else:
+            print("No option with such value!")
+
     else:
-        print("Error, no option with such value!")
+        print("No option with such value!")
 
 
 async def startup_menu():
