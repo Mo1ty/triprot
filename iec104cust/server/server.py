@@ -49,6 +49,7 @@ def main():
     for i in range(0, 96):
         points.append(station.get_point(i+32+1).value)
 
+    print(points)
     print("CONNECTION OVER!")
     print("CONNECTION OVER!")
     print("CONNECTION OVER!")
