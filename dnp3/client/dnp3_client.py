@@ -10,24 +10,6 @@ PORT = 20000
 
 
 class MyMaster:
-    """
-        Interface for all master application callback info except for measurement values.
-
-        DNP3 spec section 5.1.6.1:
-            The Application Layer provides the following services for the DNP3 User Layer in a master:
-                - Formats requests directed to one or more outstations.
-                - Notifies the DNP3 User Layer when new data or information arrives from an outstation.
-
-        DNP spec section 5.1.6.3:
-            The Application Layer requires specific services from the layers beneath it.
-                - Partitioning of fragments into smaller portions for transport reliability.
-                - Knowledge of which device(s) were the source of received messages.
-                - Transmission of messages to specific devices or to all devices.
-                - Message integrity (i.e., error-free reception and transmission of messages).
-                - Knowledge of the time when messages arrive.
-                - Either precise times of transmission or the ability to set time values
-                  into outgoing messages.
-    """
     def __init__(self,
                  dnp3_host,
                  log_handler=asiodnp3.ConsoleLogger().Create(),

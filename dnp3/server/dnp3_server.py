@@ -8,31 +8,6 @@ PORT = 20000
 
 
 class OutstationApplication(opendnp3.IOutstationApplication):
-    """
-        Interface for all outstation callback info except for control requests.
-
-        DNP3 spec section 5.1.6.2:
-            The Application Layer provides the following services for the DNP3 User Layer in an outstation:
-                - Notifies the DNP3 User Layer when action requests, such as control output,
-                  analog output, freeze and file operations, arrive from a master.
-                - Requests data and information from the outstation that is wanted by a master
-                  and formats the responses returned to a master.
-                - Assures that event data is successfully conveyed to a master (using
-                  Application Layer confirmation).
-                - Sends notifications to the master when the outstation restarts, has queued events,
-                  and requires time synchronization.
-
-        DNP3 spec section 5.1.6.3:
-            The Application Layer requires specific services from the layers beneath it.
-                - Partitioning of fragments into smaller portions for transport reliability.
-                - Knowledge of which device(s) were the source of received messages.
-                - Transmission of messages to specific devices or to all devices.
-                - Message integrity (i.e., error-free reception and transmission of messages).
-                - Knowledge of the time when messages arrive.
-                - Either precise times of transmission or the ability to set time values
-                  into outgoing messages.
-    """
-
     outstation = None
 
     def __init__(self):

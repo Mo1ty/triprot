@@ -7,10 +7,6 @@ def main(host104, registers):
     client = c104.Client(tick_rate_ms=1000, command_timeout_ms=1000)
     connection = client.add_connection(ip=host104, port=2404, init=c104.Init.INTERROGATION)
     station = connection.add_station(common_address=47)
-
-    # monitoring point preparation
-    point = station.add_point(io_address=11, type=c104.Type.M_ME_NC_1)
-
     # start
     client.start()
 
@@ -29,25 +25,7 @@ def main(host104, registers):
         else:
             break
 
-    #time.sleep(3)
-
-    print("read")
-    print("read")
-    print("read")
-    if point.read():
-        print("-> SUCCESS")
-    else:
-        print("-> FAILURE")
-
-    #time.sleep(3)
-
-    print("transmit")
-    print("transmit")
-    print("transmit")
-
-
     time.sleep(3)
-
     print("exit")
     print("exit")
     print("exit")
