@@ -45,7 +45,10 @@ def main():
         print("Keep alive until disconnected")
         time.sleep(1)
 
-    print(f"### POINT 64 VALUE IS: {station.get_point(64).value}")
+    points = []
+    for i in range(0, 96):
+        points.append(station.get_point(i+32+1).value)
+
     print("CONNECTION OVER!")
     print("CONNECTION OVER!")
     print("CONNECTION OVER!")
