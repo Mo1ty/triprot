@@ -70,14 +70,27 @@ async def startup_menu():
     if result == "1":
         await initialize_application()
     elif result == "2":
-        pass
+        about()
     elif result == "3":
-        pass
+        return
     else:
         print("Error, no option with such value!")
 
 
-options = ["Start app.", "Exit.", "How it works?"]
+options = ["Start app.", "How it works?", "Exit."]
+
+
+def about():
+    print("Welcome to the TriProt application!")
+    print("After starting you app you have to choose, which VM you simulate:")
+    print("- VM 1 simulates Modbus slave.")
+    print("- VM 2 simulates Master gateway, connecting Modbus with dnp3/iec 104.")
+    print("- VM 3 simulates dnp3/iec 104 client.")
+    print("ATTENTION: You have to specify same protocol on VM 2 and VM 3 - they cannot autoconfigure protocol.")
+    print("--------------------------------")
+    print("VM 2 must be started after VM 1 and VM 3.")
+    print("You will need to know VM 1 and VM 3 IP addresses to connect.")
+
 
 if __name__ == "__main__":
     asyncio.run(startup_menu())

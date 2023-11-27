@@ -1,6 +1,7 @@
 from pymodbus.framer import ModbusSocketFramer
 import pymodbus.client as ModbusClient
 from pymodbus.exceptions import ModbusException
+import asyncio
 
 
 class ClientArgs:
@@ -14,7 +15,7 @@ class ClientArgs:
         self.timeout = 10
 
 
-def main():
+async def main():
 
     host = input("Type IP: ")
 
@@ -47,4 +48,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
